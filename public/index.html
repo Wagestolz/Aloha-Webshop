@@ -22,7 +22,7 @@
                 <div class="nav-center">
                     <!-- links -->
                     <div>
-                        <button class="toggle-nav">
+                        <button class="toggle-nav" @click="toggleNav">
                             <i class="fas fa-bars"></i>
                         </button>
                         <ul class="nav-links">
@@ -41,9 +41,9 @@
                     </div>
                     <!-- logo -->
                     <img src="/img/aloha.gif" class="nav-logo" alt="logo" />
-                    <!-- card icon -->
+                    <!-- cart icon -->
                     <div class="toggle-container">
-                        <button class="toggle-cart">
+                        <button class="toggle-cart" @click="toggleCart">
                             <i class="fas fa-shopping-cart"></i>
                         </button>
                         <span class="cart-item-count">1</span>
@@ -60,9 +60,9 @@
             </section>
             <!-- End of hero -->
             <!-- sidebar -->
-            <div class="sidebar-overlay">
+            <div class="sidebar-overlay" v-bind:class="{ show: toggleActive }">
                 <aside class="sidebar">
-                    <button class="sidebar-close">
+                    <button class="sidebar-close" @click="toggleNav">
                         <i class="fas fa-times"></i>
                     </button>
                     <ul class="sidebar-links">
@@ -86,9 +86,9 @@
             </div>
             <!-- end of sidebar -->
             <!-- cart -->
-            <div class="cart-overlay">
+            <div class="cart-overlay" v-bind:class="{ show: cartToggleActive }">
                 <aside class="cart">
-                    <button class="cart-close">
+                    <button class="cart-close" @click="toggleCart">
                         <i class="fas fa-times"></i>
                     </button>
                     <header>
