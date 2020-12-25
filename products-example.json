@@ -1,14 +1,5 @@
-DROP TABLE IF EXISTS products;
-
-
-CREATE TABLE products (
-	id SERIAL NOT NULL PRIMARY KEY,
-	fields JSON NOT NULL
-);
-
-
-INSERT INTO products (fields)
-VALUES('{
+[
+    {
         "name": "Aloha Basic Shirt",
         "price": 12.99,
         "brand": "Armani",
@@ -43,4 +34,5 @@ VALUES('{
                 }
             }
         ]
-    }');
+    }
+]
