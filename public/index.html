@@ -132,16 +132,60 @@
                     </footer>
                 </aside>
             </div>
-
+            <!-- featured products -->
+            <section class="section featured">
+                <div class="title">
+                    <h2><span>/</span> featured</h2>
+                </div>
+                <div class="featured-center section-center">
+                    <!-- <h2 class="section-loading">loading...</h2> -->
+                    <!-- single product -->
+                    <article
+                        class="product"
+                        v-for="each in featuredProducts"
+                        v-bind:key="each.id"
+                    >
+                        <div class="product-container">
+                            <img
+                                :src="each.fields.image[0].url"
+                                class="product-img img"
+                            />
+                            <div class="product-icons">
+                                <a href="product.html?id=1" class="product-icon"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <button
+                                    href="product.html?id=1"
+                                    class="product-cart-button product-icon"
+                                    data-id="1"
+                                >
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <footer>
+                            <p class="product-name">{{each.fields.name}}</p>
+                            <h4 class="product-price">
+                                ${{each.fields.price}}
+                            </h4>
+                        </footer>
+                    </article>
+                    <!-- End of single product -->
+                </div>
+                <div>
+                    <a href="produts.html" class="btn">all products</a>
+                </div>
+            </section>
+            <!-- End of featured products -->
             <!-- MODAL COMPONENT -->
-            <modal-component
+            <!-- <modal-component
                 v-if="clickId"
                 :click-id="clickId"
                 @taglookup="tagFilter"
                 @close="closeMe"
                 @deletion="updateDelete"
             >
-            </modal-component>
+            </modal-component> -->
             <!-- MODAL COMPONENT -->
         </div>
         <!-- End of Vue Instance -->

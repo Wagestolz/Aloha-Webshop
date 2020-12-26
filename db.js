@@ -7,3 +7,14 @@ const db = spicedPg(
 module.exports.getProducts = () => {
     return db.query(`SELECT * FROM products`);
 };
+
+module.exports.getFeatured = () => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        WHERE fields ->> 'featured' = 'true'
+        ORDER BY id ASC`
+    );
+};
+
+// ALTERNATIVELY: WHERE CAST ( fields ->> 'featured' AS BOOLEAN) = true

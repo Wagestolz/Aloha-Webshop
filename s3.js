@@ -18,7 +18,7 @@ module.exports.delete = (req, res, next) => {
     const filename = url.substring(url.length - 36, url.length);
     const promise = s3
         .deleteObject({
-            Bucket: 'aloha.imageboard',
+            Bucket: 'aloha.shop',
             Key: filename,
         })
         .promise();
@@ -46,7 +46,7 @@ module.exports.uploadFromUrl = (path, cb) => {
 
     // Setting up S3 upload parameters
     const params = {
-        Bucket: 'aloha.imageboard',
+        Bucket: 'aloha.shop',
         ACL: 'public-read',
         Key: filename, // File name you want to save as in S3
         ContentType: 'image/png',

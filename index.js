@@ -12,6 +12,19 @@ app.use(
 );
 app.use(cookieParser());
 
+// featured products
+app.get('/featured', (req, res) => {
+    console.log('GET request to /featured');
+    db.getFeatured()
+        .then(({ rows }) => {
+            console.log('rows: ', rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.getImages: ', err);
+        });
+});
+
 app.use(express.static('public'));
 
 if (require.main == module) {
