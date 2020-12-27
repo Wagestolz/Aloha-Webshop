@@ -50,15 +50,6 @@
                     </div>
                 </div>
             </nav>
-            <!-- hero -->
-            <section class="hero">
-                <div class="hero-container">
-                    <h1 class="text-slanted">Aloha Everyday</h1>
-                    <h3>Hawaiian Menswear</h3>
-                    <a href="products.html" class="hero-btn">shop now</a>
-                </div>
-            </section>
-            <!-- End of hero -->
             <!-- sidebar -->
             <div class="sidebar-overlay" v-bind:class="{ show: toggleActive }">
                 <aside class="sidebar">
@@ -132,6 +123,23 @@
                     </footer>
                 </aside>
             </div>
+            <!-- HOME COMPONENT -->
+            <home-component v-if="home" :click-id="clickId"> </home-component>
+            <!-- HOME COMPONENT -->
+        </div>
+        <!-- End of Vue Instance -->
+        <!-- HOME-Component Script tag -->
+        <script id="home-template" type="text/x-template">
+            <div class="home">
+            <!-- hero -->
+            <section class="hero">
+                <div class="hero-container">
+                    <h1 class="text-slanted">Aloha Everyday</h1>
+                    <h3>Hawaiian Menswear</h3>
+                    <a href="products.html" class="hero-btn">shop now</a>
+                </div>
+            </section>
+            <!-- End of hero -->
             <!-- featured products -->
             <section class="section featured">
                 <div class="title">
@@ -149,9 +157,10 @@
                             <img
                                 :src="each.fields.image[0].url"
                                 class="product-img img"
+                                alt="each.id"
                             />
                             <div class="product-icons">
-                                <a href="product.html?id=1" class="product-icon"
+                                <a @click="openProduct" :href="'#'+each.id" class="product-icon"
                                     ><i class="fas fa-search"></i
                                 ></a>
                                 <button
@@ -177,27 +186,21 @@
                 </div>
             </section>
             <!-- End of featured products -->
-            <!-- MODAL COMPONENT -->
-            <!-- <modal-component
+            <!-- PRODUCT COMPONENT -->
+            <product-component
                 v-if="clickId"
                 :click-id="clickId"
-                @taglookup="tagFilter"
                 @close="closeMe"
-                @deletion="updateDelete"
             >
-            </modal-component> -->
-            <!-- MODAL COMPONENT -->
-        </div>
-        <!-- End of Vue Instance -->
-        <!-- Modal-Component Script tag (outside vue instance!) -->
-        <script id="modal-template" type="text/x-template">
-            <div class="modal" >
+            </product-component>
+            <!-- PRODUCT COMPONENT -->
             </div>
         </script>
-        <!-- End of Modal-Component Script tag -->
-        <!-- Comments-Component Script Tag (outside vue instance!)-->
-        <script id="comment-template" type="text/x-template">
-            <div class="comments">
+        <!-- End of HOME-Component Script tag -->
+        <!-- PRODUCT-Component Script Tag -->
+        <script id="product-template" type="text/x-template">
+            <div class="product">
+                <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
             </div>
         </script>
         <!-- End of Comments-Component Script Tag -->
