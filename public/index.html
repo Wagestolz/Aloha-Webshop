@@ -43,10 +43,13 @@
                     <img src="/img/aloha.gif" class="nav-logo" alt="logo" />
                     <!-- cart icon -->
                     <div class="toggle-container">
-                        <button class="toggle-cart" @click="toggleCart">
+                        <button
+                            class="toggle-cart"
+                            @click="toggleCart(); cartValue();"
+                        >
                             <i class="fas fa-shopping-cart"></i>
                         </button>
-                        <span class="cart-item-count">1</span>
+                        <span class="cart-item-count">{{cart.length}}</span>
                     </div>
                 </div>
             </nav>
@@ -79,7 +82,10 @@
             <!-- cart -->
             <div class="cart-overlay" v-bind:class="{ show: cartToggleActive }">
                 <aside class="cart">
-                    <button class="cart-close" @click="toggleCart">
+                    <button
+                        class="cart-close"
+                        @click="toggleCart(); cartValue();"
+                    >
                         <i class="fas fa-times"></i>
                     </button>
                     <header>
@@ -90,7 +96,7 @@
                         <!-- single item -->
                         <article
                             class="cart-item"
-                            v-for="each in cart"
+                            v-for="(each, index) in cart"
                             v-bind:key="each.id"
                         >
                             <img
@@ -106,7 +112,10 @@
                                 <p class="cart-item-price">
                                     €{{each.fields.price}}
                                 </p>
-                                <button class="cart-item-remove-btn">
+                                <button
+                                    @click="removeItem(each.id, index); cartValue();"
+                                    class="cart-item-remove-btn"
+                                >
                                     remove
                                 </button>
                             </div>
@@ -124,14 +133,16 @@
                     </div>
                     <!-- cart footer -->
                     <footer>
-                        <h3 class="cart-total text-slanted">total: €12.99</h3>
+                        <h3 class="cart-total text-slanted">
+                            total: €{{total}}
+                        </h3>
                         <button class="cart-checkout btn">checkout</button>
                     </footer>
                 </aside>
             </div>
             <!-- HOME COMPONENT -->
             <home-component
-                @cart-addition="updateCart"
+                @cart-addition="addItemToCart"
                 v-if="home"
                 :click-id="clickId"
             ></home-component>

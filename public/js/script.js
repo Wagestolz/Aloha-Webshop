@@ -92,6 +92,7 @@
             home: true,
             clickId: location.hash.slice(1),
             cart: [],
+            total: 0,
         },
         mounted: function () {
             var self = this;
@@ -118,8 +119,8 @@
                 this.clickId = null;
                 history.pushState({}, '', '/'); // reset link
             },
-            updateCart: function (id) {
-                console.log('updateCart fired with id: ', id);
+            addItemToCart: function (id) {
+                console.log('addItemToCart fired with id: ', id);
                 var self = this;
                 axios
                     .get(`/product/:${id}`, {
@@ -137,6 +138,16 @@
                     .catch(function (error) {
                         console.log('error at GET /products/:productId', error);
                     });
+            },
+            removeItem: function (id, index) {
+                console.log('clicked removeItem for id and index: ', id, index);
+                this.cart.splice(index, 1);
+            },
+            cartValue: function () {
+                this.total = 0;
+                for (let i = 0; i < this.cart.length; i++) {
+                    this.total += this.cart[i].fields.price;
+                }
             },
         },
     });
