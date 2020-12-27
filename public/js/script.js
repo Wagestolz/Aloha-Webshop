@@ -130,6 +130,7 @@
                         if (res.data.length > 0) {
                             self.cart.push(res.data[0]);
                             console.log('cart: ', self.cart);
+                            self.toggleCart();
                         } else {
                             self.empty = true;
                             console.log('empty selection');
