@@ -27,15 +27,23 @@
                         </button>
                         <ul class="nav-links">
                             <li>
-                                <a href="index.html" class="nav-link"> home</a>
+                                <a @click="navHome" href="#" class="nav-link">
+                                    home</a
+                                >
                             </li>
                             <li>
-                                <a href="products.html" class="nav-link">
+                                <a
+                                    @click="navProducts"
+                                    href="#"
+                                    class="nav-link"
+                                >
                                     products</a
                                 >
                             </li>
                             <li>
-                                <a href="about.html" class="nav-link"> about</a>
+                                <a @click="navAbout" href="#" class="nav-link">
+                                    about</a
+                                >
                             </li>
                         </ul>
                     </div>
@@ -61,17 +69,21 @@
                     </button>
                     <ul class="sidebar-links">
                         <li>
-                            <a href="index.html" class="sidebar-link">
+                            <a @click="navHome" href="#" class="sidebar-link">
                                 <i class="fas fa-home fa-fw"></i>home
                             </a>
                         </li>
                         <li>
-                            <a href="products.html" class="sidebar-link">
+                            <a
+                                @click="navProducts"
+                                href="#"
+                                class="sidebar-link"
+                            >
                                 <i class="fas fa-tshirt fa-fw"></i>products
                             </a>
                         </li>
                         <li>
-                            <a href="about.html" class="sidebar-link">
+                            <a @click="navAbout" href="#" class="sidebar-link">
                                 <i class="fas fa-umbrella-beach fa-fw"></i>about
                             </a>
                         </li>
@@ -147,6 +159,16 @@
                 :click-id="clickId"
             ></home-component>
             <!-- HOME COMPONENT -->
+            <!-- ALL-PRODUCTS COMPONENT -->
+            <all-products-component
+                @cart-addition="addItemToCart"
+                v-if="products"
+                :click-id="clickId"
+            ></all-products-component>
+            <!-- ALL-PRODUCTS COMPONENT -->
+            <!-- ABOUT COMPONENT -->
+            <about-component v-if="about"></about-component>
+            <!-- ABOUT COMPONENT -->
             <!-- PRODUCT COMPONENT -->
             <product-component
                 v-if="clickId"
@@ -225,6 +247,68 @@
             </div>
         </script>
         <!-- End of PRODUCT-Component Script Tag -->
+        <!-- ALLPRODUCTS-Component Script Tag -->
+        <script id="all-products-template" type="text/x-template">
+            <div class="all-products">
+                <!-- hero -->
+                <section class="page-hero">
+                <div class="section-center">
+                    <h3 class="page-hero-title">Home / About</h3>
+                </div>
+                </section>
+            <!-- End of hero -->
+            <!-- about -->
+            <section class="section section-center about-page">
+            <div class="title">
+                <h2><span>/</span> our history</h2>
+            </div>
+                <p class="about-text">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
+                tempora exercitationem qui hic molestiae voluptatem possimus
+                iusto maiores culpa autem voluptatum labore tempore magnam
+                facere accusamus dolore dolores commodi, unde ex debitis itaque
+                odio inventore, nesciunt reiciendis! Quod voluptatem molestiae
+                provident ullam nihil harum dolorem esse ex. Rerum maiores
+                assumenda dolores provident dignissimos dicta quos nam cum at,
+                impedit, voluptas repudiandae! Illum fuga odio nesciunt laborum
+                est, sed consequatur laudantium qui aspernatur, voluptas
+                eveniet! Officiis aliquid quas natus ea cumque.
+                </p>
+            </section>
+            </div>
+        </script>
+        <!-- End of ALLPRODUCTS-Component Script Tag -->
+        <!-- ABOUT-Component Script Tag -->
+        <script id="about-template" type="text/x-template">
+            <div class="all-products">
+                <!-- hero -->
+                <section class="page-hero">
+                <div class="section-center">
+                    <h3 class="page-hero-title">Home / About</h3>
+                </div>
+                </section>
+            <!-- End of hero -->
+            <!-- about -->
+            <section class="section section-center about-page">
+            <div class="title">
+                <h2><span>/</span> our history</h2>
+            </div>
+                <p class="about-text">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
+                tempora exercitationem qui hic molestiae voluptatem possimus
+                iusto maiores culpa autem voluptatum labore tempore magnam
+                facere accusamus dolore dolores commodi, unde ex debitis itaque
+                odio inventore, nesciunt reiciendis! Quod voluptatem molestiae
+                provident ullam nihil harum dolorem esse ex. Rerum maiores
+                assumenda dolores provident dignissimos dicta quos nam cum at,
+                impedit, voluptas repudiandae! Illum fuga odio nesciunt laborum
+                est, sed consequatur laudantium qui aspernatur, voluptas
+                eveniet! Officiis aliquid quas natus ea cumque.
+                </p>
+            </section>
+            </div>
+        </script>
+        <!-- End of ABOUT-Component Script Tag -->
         <script src="/js/vue.js"></script>
         <script src="/js/axios.min.js"></script>
         <script src="/js/script.js"></script>

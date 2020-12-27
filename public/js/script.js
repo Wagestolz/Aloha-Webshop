@@ -1,4 +1,64 @@
 (function () {
+    Vue.component('about-component', {
+        template: '#about-template',
+        data: function () {
+            return {};
+        },
+        mounted: function () {},
+        methods: {},
+    });
+
+    Vue.component('all-products-component', {
+        template: '#all-products-template',
+        props: ['clickId'],
+        data: function () {
+            return {
+                product: {
+                    id: '',
+                    name: '',
+                    price: '',
+                    brand: '',
+                    fabric: '',
+                    colors: [],
+                    tags: [],
+                    featured: '',
+                    description: '',
+                    image: [],
+                },
+                empty: false,
+            };
+        },
+        watch: {
+            clickId: 'getProduct',
+        },
+        mounted: function () {
+            this.getProduct();
+        },
+        methods: {
+            getProduct: function () {
+                var self = this;
+                axios
+                    .get(`/product/:${this.clickId}`, {
+                        params: { productId: this.clickId },
+                    })
+                    .then(function (res) {
+                        if (res.data.length > 0) {
+                            self.product = res.data;
+                        } else {
+                            self.empty = true;
+                            console.log('empty selection');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('error at GET /products/:productId', error);
+                    });
+            },
+            closeProduct: function () {
+                this.$emit('close');
+            },
+        },
+    });
+
     Vue.component('product-component', {
         template: '#product-template',
         props: ['clickId'],
@@ -90,6 +150,8 @@
             cartToggleActive: false,
             featuredProducts: [],
             home: true,
+            about: false,
+            products: false,
             clickId: location.hash.slice(1),
             cart: [],
             total: 0,
@@ -130,6 +192,7 @@
                         if (res.data.length > 0) {
                             self.cart.push(res.data[0]);
                             console.log('cart: ', self.cart);
+                            self.cartValue();
                             self.toggleCart();
                         } else {
                             self.empty = true;
@@ -149,6 +212,21 @@
                 for (let i = 0; i < this.cart.length; i++) {
                     this.total += this.cart[i].fields.price;
                 }
+            },
+            navHome: function () {
+                this.home = true;
+                this.products = false;
+                this.about = false;
+            },
+            navProducts: function () {
+                this.products = true;
+                this.home = false;
+                this.about = false;
+            },
+            navAbout: function () {
+                this.about = true;
+                this.products = false;
+                this.home = false;
             },
         },
     });
