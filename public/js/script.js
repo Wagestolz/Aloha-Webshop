@@ -27,7 +27,7 @@
         methods: {
             getProduct: function () {
                 var self = this;
-                console.log('getProduct fired');
+                console.log('getProduct fired and clickId: ', this.clickId);
                 // axios
                 //     .get('/product', { params: { id: self.clickId } })
                 //     .then(function (res) {
@@ -42,6 +42,7 @@
                 //     });
             },
             closeProduct: function () {
+                console.log('close fired!');
                 this.$emit('close');
             },
         },
@@ -49,15 +50,13 @@
 
     Vue.component('home-component', {
         template: '#home-template',
-        props: ['home', 'clickId'],
+        props: ['home'],
         data: function () {
             // data is a function for component (own data set)
             return {
                 featuredProducts: [],
+                product: false,
             };
-        },
-        watch: {
-            clickId: 'openProduct',
         },
         mounted: function () {
             console.log('Home component mounted');
@@ -96,10 +95,6 @@
                 //         console.log('error at GET /modal', error);
                 //     });
             },
-            closeMe: function () {
-                this.clickId = null;
-                history.pushState({}, '', '/'); // reset link
-            },
         },
     });
 
@@ -113,9 +108,11 @@
             clickId: location.hash.slice(1),
         },
         mounted: function () {
-            console.log('Vue instance mounted');
+            var self = this;
+            console.log('Vue instance mounted, this.clickId: ', this.clickId);
             addEventListener('hashchange', function () {
                 self.clickId = location.hash.slice(1); // for openProduct
+                console.log('hash change -> self.clickId: ', self.clickId);
             });
         },
         methods: {
@@ -133,10 +130,11 @@
                     this.cartToggleActive = false;
                 }
             },
-            // closeMe: function () {
-            //     this.clickId = null;
-            //     history.pushState({}, '', '/'); // reset link
-            // },
+            closeMe: function () {
+                console.log('close me in Instance');
+                this.clickId = null;
+                history.pushState({}, '', '/'); // reset link
+            },
         },
     });
 })();

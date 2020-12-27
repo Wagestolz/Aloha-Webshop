@@ -124,8 +124,16 @@
                 </aside>
             </div>
             <!-- HOME COMPONENT -->
-            <home-component v-if="home" :click-id="clickId"> </home-component>
+            <home-component v-if="home" :click-id="clickId"></home-component>
             <!-- HOME COMPONENT -->
+            <!-- PRODUCT COMPONENT -->
+            <product-component
+                v-if="clickId"
+                :click-id="clickId"
+                @close="closeMe"
+            >
+            </product-component>
+            <!-- PRODUCT COMPONENT -->
         </div>
         <!-- End of Vue Instance -->
         <!-- HOME-Component Script tag -->
@@ -160,7 +168,7 @@
                                 alt="each.id"
                             />
                             <div class="product-icons">
-                                <a @click="openProduct" :href="'#'+each.id" class="product-icon"
+                                <a :href="'#'+each.id" class="product-icon"
                                     ><i class="fas fa-search"></i
                                 ></a>
                                 <button
@@ -186,24 +194,17 @@
                 </div>
             </section>
             <!-- End of featured products -->
-            <!-- PRODUCT COMPONENT -->
-            <product-component
-                v-if="clickId"
-                :click-id="clickId"
-                @close="closeMe"
-            >
-            </product-component>
-            <!-- PRODUCT COMPONENT -->
             </div>
         </script>
         <!-- End of HOME-Component Script tag -->
         <!-- PRODUCT-Component Script Tag -->
         <script id="product-template" type="text/x-template">
             <div class="product">
+                <h1>I am the product component</h1>
                 <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
             </div>
         </script>
-        <!-- End of Comments-Component Script Tag -->
+        <!-- End of PRODUCT-Component Script Tag -->
         <script src="/js/vue.js"></script>
         <script src="/js/axios.min.js"></script>
         <script src="/js/script.js"></script>
