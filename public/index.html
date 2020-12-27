@@ -88,18 +88,24 @@
                     <!-- cart items -->
                     <div class="cart-items">
                         <!-- single item -->
-                        <article class="cart-item" data-id="">
+                        <article
+                            class="cart-item"
+                            v-for="each in cart"
+                            v-bind:key="each.id"
+                        >
                             <img
-                                src="/img/Shirt1.png"
+                                :src="each.fields.image[0].url"
                                 class="cart-item-img"
-                                alt="name"
+                                :alt="each.fields.name"
                             />
                             <!-- item-info -->
                             <div>
                                 <h4 class="cart-item-name">
-                                    Aloha Classic Shirt
+                                    {{each.fields.name}}
                                 </h4>
-                                <p class="cart-item-price">€13.99</p>
+                                <p class="cart-item-price">
+                                    €{{each.fields.price}}
+                                </p>
                                 <button class="cart-item-remove-btn">
                                     remove
                                 </button>
@@ -124,7 +130,11 @@
                 </aside>
             </div>
             <!-- HOME COMPONENT -->
-            <home-component v-if="home" :click-id="clickId"></home-component>
+            <home-component
+                @cart-addition="updateCart"
+                v-if="home"
+                :click-id="clickId"
+            ></home-component>
             <!-- HOME COMPONENT -->
             <!-- PRODUCT COMPONENT -->
             <product-component
@@ -172,9 +182,8 @@
                                     ><i class="fas fa-search"></i
                                 ></a>
                                 <button
-                                    href="product.html?id=1"
+                                    @click="addToCart(each.id)"
                                     class="product-cart-button product-icon"
-                                    data-id="1"
                                 >
                                     <i class="fas fa-shopping-cart"></i>
                                 </button>

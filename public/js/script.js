@@ -16,6 +16,7 @@
                     description: '',
                     image: [],
                 },
+                empty: false,
             };
         },
         watch: {
@@ -27,22 +28,23 @@
         methods: {
             getProduct: function () {
                 var self = this;
-                console.log('getProduct fired and clickId: ', this.clickId);
-                // axios
-                //     .get('/product', { params: { id: self.clickId } })
-                //     .then(function (res) {
-                //         if (res.data.notfound) {
-                //             console.log(res.data.notfound);
-                //             self.closeModal();
-                //         }
-                //         self.image = res.data[0];
-                //     })
-                //     .catch(function (error) {
-                //         console.log('error at GET /modal', error);
-                //     });
+                axios
+                    .get(`/product/:${this.clickId}`, {
+                        params: { productId: this.clickId },
+                    })
+                    .then(function (res) {
+                        if (res.data.length > 0) {
+                            self.product = res.data;
+                        } else {
+                            self.empty = true;
+                            console.log('empty selection');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('error at GET /products/:productId', error);
+                    });
             },
             closeProduct: function () {
-                console.log('close fired!');
                 this.$emit('close');
             },
         },
@@ -68,32 +70,15 @@
                 axios
                     .get('/featured')
                     .then(function (res) {
-                        console.log('res.data: ', res.data);
                         self.featuredProducts = res.data;
-                        console.log(
-                            'self.featuredProducts: ',
-                            self.featuredProducts
-                        );
                     })
                     .catch(function (error) {
                         console.log('error at GET /featured', error);
                     });
             },
-            openProduct: function () {
-                console.log('open Product');
-                // var self = this;
-                // axios
-                //     .get('/product', { params: { id: self.clickId } })
-                //     .then(function (res) {
-                //         if (res.data.notfound) {
-                //             console.log(res.data.notfound);
-                //             self.closeModal();
-                //         }
-                //         self.image = res.data[0];
-                //     })
-                //     .catch(function (error) {
-                //         console.log('error at GET /modal', error);
-                //     });
+            addToCart: function (id) {
+                console.log('add to Cart fired for id: ', id);
+                this.$emit('cart-addition', id);
             },
         },
     });
@@ -106,13 +91,12 @@
             featuredProducts: [],
             home: true,
             clickId: location.hash.slice(1),
+            cart: [],
         },
         mounted: function () {
             var self = this;
-            console.log('Vue instance mounted, this.clickId: ', this.clickId);
             addEventListener('hashchange', function () {
                 self.clickId = location.hash.slice(1); // for openProduct
-                console.log('hash change -> self.clickId: ', self.clickId);
             });
         },
         methods: {
@@ -131,9 +115,28 @@
                 }
             },
             closeMe: function () {
-                console.log('close me in Instance');
                 this.clickId = null;
                 history.pushState({}, '', '/'); // reset link
+            },
+            updateCart: function (id) {
+                console.log('updateCart fired with id: ', id);
+                var self = this;
+                axios
+                    .get(`/product/:${id}`, {
+                        params: { productId: id },
+                    })
+                    .then(function (res) {
+                        if (res.data.length > 0) {
+                            self.cart.push(res.data[0]);
+                            console.log('cart: ', self.cart);
+                        } else {
+                            self.empty = true;
+                            console.log('empty selection');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('error at GET /products/:productId', error);
+                    });
             },
         },
     });

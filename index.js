@@ -17,11 +17,22 @@ app.get('/featured', (req, res) => {
     console.log('GET request to /featured');
     db.getFeatured()
         .then(({ rows }) => {
-            console.log('rows: ', rows);
             res.json(rows);
         })
         .catch((err) => {
             console.log('error in db.getImages: ', err);
+        });
+});
+
+// Get product
+app.get('/product/:productId', (req, res) => {
+    console.log('GET request to /product/:productId');
+    db.getProduct(req.query.productId)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.getProduct: ', err);
         });
 });
 

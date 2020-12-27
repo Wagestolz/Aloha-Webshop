@@ -17,4 +17,13 @@ module.exports.getFeatured = () => {
     );
 };
 
+module.exports.getProduct = (productId) => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        WHERE id = $1`,
+        [productId]
+    );
+};
+
 // ALTERNATIVELY: WHERE CAST ( fields ->> 'featured' AS BOOLEAN) = true
