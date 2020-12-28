@@ -48,19 +48,17 @@
                                 ...self.products.map(
                                     (item) => item.fields.price
                                 )
-                            ) + 1;
-                        self.searchPrice = self.maxPrice - 1;
+                            ) + 0.01;
+                        self.searchPrice = self.maxPrice - 0.01;
                         self.minPrice = Math.min(
                             ...self.products.map((item) => item.fields.price)
                         );
-                        console.log('minPrice: ', self.minPrice);
                     })
                     .catch(function (error) {
                         console.log('error at GET /products', error);
                     });
             },
             addToCart: function (id) {
-                console.log('add to Cart fired for id: ', id);
                 this.$emit('cart-addition', id);
             },
             searchFilter: function () {
@@ -139,6 +137,7 @@
             clickId: 'getProduct',
         },
         mounted: function () {
+            console.log('Product Modal mounted');
             this.getProduct();
         },
         methods: {
@@ -151,6 +150,7 @@
                     .then(function (res) {
                         if (res.data.length > 0) {
                             self.product = res.data;
+                            console.log('self.product: ', self.product);
                         } else {
                             self.empty = true;
                             console.log('empty selection');
@@ -162,6 +162,9 @@
             },
             closeProduct: function () {
                 this.$emit('close');
+            },
+            addProductToCart: function (id) {
+                this.$emit('cart-addition', id);
             },
         },
     });

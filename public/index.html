@@ -27,23 +27,15 @@
                         </button>
                         <ul class="nav-links">
                             <li>
-                                <a @click="navHome" href="#" class="nav-link">
-                                    home</a
-                                >
+                                <a @click="navHome" class="nav-link"> home</a>
                             </li>
                             <li>
-                                <a
-                                    @click="navProducts"
-                                    href="#"
-                                    class="nav-link"
-                                >
+                                <a @click="navProducts" class="nav-link">
                                     products</a
                                 >
                             </li>
                             <li>
-                                <a @click="navAbout" href="#" class="nav-link">
-                                    about</a
-                                >
+                                <a @click="navAbout" class="nav-link"> about</a>
                             </li>
                         </ul>
                     </div>
@@ -71,7 +63,6 @@
                         <li>
                             <a
                                 @click="navHome(); toggleNav();"
-                                href="#"
                                 class="sidebar-link"
                             >
                                 <i class="fas fa-home fa-fw"></i>home
@@ -80,7 +71,6 @@
                         <li>
                             <a
                                 @click="navProducts(); toggleNav();"
-                                href="#"
                                 class="sidebar-link"
                             >
                                 <i class="fas fa-tshirt fa-fw"></i>products
@@ -89,7 +79,6 @@
                         <li>
                             <a
                                 @click="navAbout(); toggleNav();"
-                                href="#"
                                 class="sidebar-link"
                             >
                                 <i class="fas fa-umbrella-beach fa-fw"></i>about
@@ -189,6 +178,7 @@
                 v-if="clickId"
                 :click-id="clickId"
                 @close="closeMe"
+                @cart-addition="addItemToCart"
             >
             </product-component>
             <!-- PRODUCT COMPONENT -->
@@ -267,16 +257,16 @@
                 <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
                     <section class="single-product">
                         <div class="section-center single-product-center">
-                            <img src="/img/Shirt1.png" class="single-product-img img" alt="Shirt1">
+                            <img :src="product[0].fields.image[0].url" class="single-product-img img" alt="product[0].fields.name">
                             <article class="single-product-info">
-                                <h2 class="single-product-title">Aloha Basic Shirt</h2>
+                                <h2 class="single-product-title">{{product[0].fields.name}}</h2>
                                 <p class="single-product-company text-slanted">
-                                    by Armani
+                                    by {{product[0].fields.brand}}
                                 </p>
-                                <p class="sinlge-product-price">€19.99</p>
+                                <p class="sinlge-product-price">€{{product[0].fields.price}}</p>
                                 <div class="single-product-colors"></div>
-                                <p class="single-product-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni eius voluptatem enim soluta illum iure numquam provident, molestias pariatur blanditiis?</p>
-                                <button class="addToCartBtn btn">add to cart</button>
+                                <p class="single-product-desc">{{product[0].fields.description}}</p>
+                                <button @click="addProductToCart(product[0].id)" class="addToCartBtn btn">add to cart</button>
                             </article>
                         </div>
                     </section>
