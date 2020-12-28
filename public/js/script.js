@@ -140,6 +140,7 @@
             clickId: location.hash.slice(1),
             cart: [],
             total: 0,
+            cartCount: 0,
         },
         mounted: function () {
             var self = this;
@@ -169,24 +170,41 @@
             addItemToCart: function (id) {
                 console.log('addItemToCart fired with id: ', id);
                 var self = this;
-                axios
-                    .get(`/product/:${id}`, {
-                        params: { productId: id },
-                    })
-                    .then(function (res) {
-                        if (res.data.length > 0) {
-                            self.cart.push(res.data[0]);
-                            console.log('cart: ', self.cart);
-                            self.cartValue();
-                            self.toggleCart();
-                        } else {
-                            self.empty = true;
-                            console.log('empty selection');
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log('error at GET /products/:productId', error);
-                    });
+                let item = self.cart.find((cartItem) => cartItem.id === id);
+                if (!item) {
+                    axios
+                        .get(`/product/:${id}`, {
+                            params: { productId: id },
+                        })
+                        .then(function (res) {
+                            if (res.data.length > 0) {
+                                let product = { ...res.data[0], amount: 1 };
+                                self.cart.push(product);
+                                console.log('cart: ', self.cart);
+                                self.cartValue();
+                                self.toggleCart();
+                            } else {
+                                self.empty = true;
+                                console.log('empty selection');
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(
+                                'error at GET /products/:productId',
+                                error
+                            );
+                        });
+                } else {
+                    console.log('item already in card: ', item);
+                    let index = self.cart.findIndex(
+                        (cartItem) => cartItem.id === id
+                    );
+                    console.log('index: ', index);
+                    self.cart[index].amount += 1;
+                    console.log('item: ', item);
+                    self.cartValue();
+                    self.toggleCart();
+                }
             },
             removeItem: function (id, index) {
                 console.log('clicked removeItem for id and index: ', id, index);
@@ -194,8 +212,27 @@
             },
             cartValue: function () {
                 this.total = 0;
+                this.cartCount = 0;
                 for (let i = 0; i < this.cart.length; i++) {
-                    this.total += this.cart[i].fields.price;
+                    let itemTotal =
+                        this.cart[i].fields.price * this.cart[i].amount;
+                    this.total += itemTotal;
+                    this.total =
+                        Math.round((this.total + Number.EPSILON) * 100) / 100;
+                    this.cartCount += this.cart[i].amount;
+                }
+            },
+            increaseAmount: function (index, id) {
+                this.cart[index].amount += 1;
+                this.cartValue();
+            },
+            decreaseAmount: function (index, id) {
+                if (this.cart[index].amount > 1) {
+                    this.cart[index].amount -= 1;
+                    this.cartValue();
+                } else {
+                    this.removeItem(id, index);
+                    this.cartValue();
                 }
             },
             navHome: function () {
