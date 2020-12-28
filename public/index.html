@@ -308,19 +308,20 @@
                     <div class="filters-container">
                         <!-- search  -->
                         <form class="input">
-                            <input type="text" class="search-input" placeholder="search...">
+                            <input type="text" class="search-input" placeholder="search..." v-on:keyup="searchFilter" v-model="searchInput">
                         </form>
                         <!-- brand -->
                         <h4>Brand</h4>
-                        <article class="companies">
-                            <button class="company-btn">all</button>
-                            <button class="company-btn">armani</button>
+                        <article class="companies"                     >
+                            <button @click="getProducts" class="company-btn">all</button>
+                            <button @click="getBrandProducts(each)" v-for="each in brands" class="company-btn">{{each}}</button>
                         </article>
                         <!-- price -->
                         <h4>Price</h4>
                         <form class="price-form">
-                            <input type="range" class="price-filter" min="0" value="50" max="100">
+                            <input type="range" class="price-filter" :min="minPrice"  :max="maxPrice" v-on:input="priceInputChange($event)">
                         </form>
+                        <p class="price-value">€{{searchPrice}}</p>
                         <!-- fabric -->
                         <!-- tags -->
                     </div>

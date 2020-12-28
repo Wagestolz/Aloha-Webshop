@@ -35,3 +35,32 @@ module.exports.getProduct = (productId) => {
 };
 
 // ALTERNATIVELY: WHERE CAST ( fields ->> 'featured' AS BOOLEAN) = true
+
+module.exports.searchProducts = (searchInput) => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        WHERE fields ->> 'name' ILIKE $1`,
+        [searchInput]
+    );
+};
+
+// '%$1%';
+
+module.exports.getProductsByBrand = (brand) => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        WHERE fields ->> 'brand' ILIKE $1`,
+        [brand]
+    );
+};
+
+module.exports.getProductsByPrice = (price) => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        WHERE fields ->> 'price' <= $1`,
+        [price]
+    );
+};

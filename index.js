@@ -56,12 +56,38 @@ if (require.main == module) {
     });
 }
 
-// // global imports
-// import './src/toggleSidebar.js';
-// import './src/cart/toggleCart.js';
-// import './src/cart/setupCart.js';
-// // specific imports
-// import fetchProducts from './src/fetchProducts.js';
-// import { setupStore, store } from './src/store.js';
-// import display from './src/displayProducts.js';
-// import { getElement } from './src/utils.js';
+// search
+app.get('/search', (req, res) => {
+    console.log('GET request to /search');
+    db.searchProducts(req.query.searchInput)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.searchProducts: ', err);
+        });
+});
+
+// brands
+app.get('/brands', (req, res) => {
+    console.log('GET request to /brands');
+    db.getProductsByBrand(req.query.brand)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.getProductsByBrand: ', err);
+        });
+});
+
+// price
+app.get('/price', (req, res) => {
+    console.log('GET request to /price');
+    db.getProductsByPrice(req.query.price)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.getProductsByBrand: ', err);
+        });
+});

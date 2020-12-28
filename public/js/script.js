@@ -16,6 +16,11 @@
         data: function () {
             return {
                 products: [],
+                searchInput: '',
+                brands: [],
+                maxPrice: null,
+                minPrice: null,
+                searchPrice: null,
             };
         },
         mounted: function () {
@@ -29,6 +34,26 @@
                     .get('/products')
                     .then(function (res) {
                         self.products = res.data;
+                        for (let i = 0; i < self.products.length; i++) {
+                            if (
+                                !self.brands.includes(
+                                    self.products[i].fields.brand
+                                )
+                            ) {
+                                self.brands.push(self.products[i].fields.brand);
+                            }
+                        }
+                        self.maxPrice =
+                            Math.max(
+                                ...self.products.map(
+                                    (item) => item.fields.price
+                                )
+                            ) + 1;
+                        self.searchPrice = self.maxPrice - 1;
+                        self.minPrice = Math.min(
+                            ...self.products.map((item) => item.fields.price)
+                        );
+                        console.log('minPrice: ', self.minPrice);
                     })
                     .catch(function (error) {
                         console.log('error at GET /products', error);
@@ -37,6 +62,55 @@
             addToCart: function (id) {
                 console.log('add to Cart fired for id: ', id);
                 this.$emit('cart-addition', id);
+            },
+            searchFilter: function () {
+                console.log('searchFilter firing: ', this.searchInput);
+                var self = this;
+                if (this.searchInput.length == 0) {
+                    this.getProducts();
+                } else {
+                    axios
+                        .get('/search', {
+                            params: { searchInput: this.searchInput },
+                        })
+                        .then(function (res) {
+                            self.products = res.data;
+                        })
+                        .catch(function (error) {
+                            console.log('error at GET /search', error);
+                        });
+                }
+            },
+            getBrandProducts: function (brand) {
+                var self = this;
+                axios
+                    .get('/brands', {
+                        params: {
+                            brand: brand,
+                        },
+                    })
+                    .then(function (res) {
+                        self.products = res.data;
+                    })
+                    .catch(function (error) {
+                        console.log('error at GET /brands', error);
+                    });
+            },
+            priceInputChange: function (e) {
+                this.searchPrice = e.target.value;
+                var self = this;
+                axios
+                    .get('/price', {
+                        params: {
+                            price: e.target.value,
+                        },
+                    })
+                    .then(function (res) {
+                        self.products = res.data;
+                    })
+                    .catch(function (error) {
+                        console.log('error at GET /price', error);
+                    });
             },
         },
     });
