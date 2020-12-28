@@ -4,7 +4,9 @@
         data: function () {
             return {};
         },
-        mounted: function () {},
+        mounted: function () {
+            console.log('About component mounted');
+        },
         methods: {},
     });
 
@@ -13,48 +15,28 @@
         props: ['clickId'],
         data: function () {
             return {
-                product: {
-                    id: '',
-                    name: '',
-                    price: '',
-                    brand: '',
-                    fabric: '',
-                    colors: [],
-                    tags: [],
-                    featured: '',
-                    description: '',
-                    image: [],
-                },
-                empty: false,
+                products: [],
             };
         },
-        watch: {
-            clickId: 'getProduct',
-        },
         mounted: function () {
-            this.getProduct();
+            console.log('Products component mounted');
+            this.getProducts();
         },
         methods: {
-            getProduct: function () {
+            getProducts: function () {
                 var self = this;
                 axios
-                    .get(`/product/:${this.clickId}`, {
-                        params: { productId: this.clickId },
-                    })
+                    .get('/products')
                     .then(function (res) {
-                        if (res.data.length > 0) {
-                            self.product = res.data;
-                        } else {
-                            self.empty = true;
-                            console.log('empty selection');
-                        }
+                        self.products = res.data;
                     })
                     .catch(function (error) {
-                        console.log('error at GET /products/:productId', error);
+                        console.log('error at GET /products', error);
                     });
             },
-            closeProduct: function () {
-                this.$emit('close');
+            addToCart: function (id) {
+                console.log('add to Cart fired for id: ', id);
+                this.$emit('cart-addition', id);
             },
         },
     });
@@ -139,6 +121,9 @@
             addToCart: function (id) {
                 console.log('add to Cart fired for id: ', id);
                 this.$emit('cart-addition', id);
+            },
+            FireNavProducts: function () {
+                this.$emit('all-products');
             },
         },
     });

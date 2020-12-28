@@ -17,6 +17,14 @@ module.exports.getFeatured = () => {
     );
 };
 
+module.exports.getAllProducts = () => {
+    return db.query(
+        `SELECT * 
+        FROM products
+        ORDER BY id ASC`
+    );
+};
+
 module.exports.getProduct = (productId) => {
     return db.query(
         `SELECT * 

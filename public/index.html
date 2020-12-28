@@ -69,13 +69,17 @@
                     </button>
                     <ul class="sidebar-links">
                         <li>
-                            <a @click="navHome" href="#" class="sidebar-link">
+                            <a
+                                @click="navHome(); toggleNav();"
+                                href="#"
+                                class="sidebar-link"
+                            >
                                 <i class="fas fa-home fa-fw"></i>home
                             </a>
                         </li>
                         <li>
                             <a
-                                @click="navProducts"
+                                @click="navProducts(); toggleNav();"
                                 href="#"
                                 class="sidebar-link"
                             >
@@ -83,7 +87,11 @@
                             </a>
                         </li>
                         <li>
-                            <a @click="navAbout" href="#" class="sidebar-link">
+                            <a
+                                @click="navAbout(); toggleNav();"
+                                href="#"
+                                class="sidebar-link"
+                            >
                                 <i class="fas fa-umbrella-beach fa-fw"></i>about
                             </a>
                         </li>
@@ -155,6 +163,7 @@
             <!-- HOME COMPONENT -->
             <home-component
                 @cart-addition="addItemToCart"
+                @all-products="navProducts"
                 v-if="home"
                 :click-id="clickId"
             ></home-component>
@@ -187,7 +196,7 @@
                 <div class="hero-container">
                     <h1 class="text-slanted">Aloha Everyday</h1>
                     <h3>Hawaiian Menswear</h3>
-                    <a href="products.html" class="hero-btn">shop now</a>
+                    <a @click="FireNavProducts" href="#" class="hero-btn">shop now</a>
                 </div>
             </section>
             <!-- End of hero -->
@@ -232,7 +241,7 @@
                     <!-- End of single product -->
                 </div>
                 <div>
-                    <a href="produts.html" class="btn">all products</a>
+                    <a @click="FireNavProducts" href="#" class="btn">all products</a>
                 </div>
             </section>
             <!-- End of featured products -->
@@ -241,9 +250,38 @@
         <!-- End of HOME-Component Script tag -->
         <!-- PRODUCT-Component Script Tag -->
         <script id="product-template" type="text/x-template">
-            <div class="product">
-                <h1>I am the product component</h1>
+            <div class="product-modal">
+                <!-- heading -->
+                    <!-- <section class="page-hero">
+                    <div class="section-center">
+                        <h3 class="page-hero-title">Home / Aloha Basic Shirt</h3>
+                    </div>
+                    </section> -->
+                <!-- End of heading -->
                 <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
+                    <section class="single-product">
+                        <div class="section-center single-product-center">
+                            <img src="/img/Shirt1.png" class="single-product-img img" alt="Shirt1">
+                            <article class="single-product-info">
+                                <h2 class="single-product-title">Aloha Basic Shirt</h2>
+                                <p class="single-product-company text-slanted">
+                                    by Armani
+                                </p>
+                                <p class="sinlge-product-price">€19.99</p>
+                                <div class="single-product-colors"></div>
+                                <p class="single-product-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni eius voluptatem enim soluta illum iure numquam provident, molestias pariatur blanditiis?</p>
+                                <button class="addToCartBtn btn">add to cart</button>
+                            </article>
+                        </div>
+                    </section>
+
+
+
+                <!-- <div class="product-modal-container">
+                    <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
+                    <h1>Random Heading</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis consequatur delectus, sint nihil dolore, iste aliquam impedit explicabo necessitatibus eos, unde pariatur. Illum neque asperiores veniam, quasi modi omnis quaerat ducimus incidunt natus qui? Delectus at saepe consectetur dolor maiores voluptate adipisci, nobis iusto quo nostrum quibusdam modi harum corporis!</p>
+                </div> -->
             </div>
         </script>
         <!-- End of PRODUCT-Component Script Tag -->
@@ -253,27 +291,70 @@
                 <!-- hero -->
                 <section class="page-hero">
                 <div class="section-center">
-                    <h3 class="page-hero-title">Home / About</h3>
+                    <h3 class="page-hero-title">Home / Products</h3>
                 </div>
                 </section>
             <!-- End of hero -->
-            <!-- about -->
-            <section class="section section-center about-page">
-            <div class="title">
-                <h2><span>/</span> our history</h2>
+            <!-- products  -->
+            <section class="products">
+                <!-- filters -->
+                <div class="filters">
+                    <div class="filters-container">
+                        <!-- search  -->
+                        <form class="input">
+                            <input type="text" class="search-input" placeholder="search...">
+                        </form>
+                        <!-- brand -->
+                        <h4>Brand</h4>
+                        <article class="companies">
+                            <button class="company-btn">all</button>
+                            <button class="company-btn">armani</button>
+                        </article>
+                        <!-- price -->
+                        <h4>Price</h4>
+                        <form class="price-form">
+                            <input type="range" class="price-filter" min="0" value="50" max="100">
+                        </form>
+                        <!-- fabric -->
+                        <!-- tags -->
+                    </div>
+                </div>
+                <div class="products-container">
+                    <!-- <div class="featured-center section-center"> -->
+                        <!-- single product -->
+                    <article
+                    class="product"
+                    v-for="each in products"
+                    v-bind:key="each.id"
+                    >
+                    <div class="product-container">
+                        <img
+                        :src="each.fields.image[0].url"
+                        class="product-img img"
+                        alt="each.id"
+                        />
+                        <div class="product-icons">
+                            <a :href="'#'+each.id" class="product-icon"
+                            ><i class="fas fa-search"></i
+                                ></a>
+                                <button
+                                @click="addToCart(each.id)"
+                                    class="product-cart-button product-icon"
+                                    >
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <footer>
+                            <p class="product-name">{{each.fields.name}}</p>
+                            <h4 class="product-price">
+                                ${{each.fields.price}}
+                            </h4>
+                        </footer>
+                    </article>
+                    <!-- End of single product -->
+                <!-- </div> -->
             </div>
-                <p class="about-text">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
-                tempora exercitationem qui hic molestiae voluptatem possimus
-                iusto maiores culpa autem voluptatum labore tempore magnam
-                facere accusamus dolore dolores commodi, unde ex debitis itaque
-                odio inventore, nesciunt reiciendis! Quod voluptatem molestiae
-                provident ullam nihil harum dolorem esse ex. Rerum maiores
-                assumenda dolores provident dignissimos dicta quos nam cum at,
-                impedit, voluptas repudiandae! Illum fuga odio nesciunt laborum
-                est, sed consequatur laudantium qui aspernatur, voluptas
-                eveniet! Officiis aliquid quas natus ea cumque.
-                </p>
             </section>
             </div>
         </script>

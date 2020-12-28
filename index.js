@@ -12,6 +12,18 @@ app.use(
 );
 app.use(cookieParser());
 
+// products
+app.get('/products', (req, res) => {
+    console.log('GET request to /products');
+    db.getAllProducts()
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log('error in db.getAllProducts: ', err);
+        });
+});
+
 // featured products
 app.get('/featured', (req, res) => {
     console.log('GET request to /featured');
