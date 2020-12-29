@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const cookieParser = require('cookie-parser'); //
+// const cookieParser = require('cookie-parser');
 const db = require('./db');
 const s3 = require('./s3');
 const { s3Url } = require('./config.json');
@@ -10,7 +10,7 @@ app.use(
         extended: false,
     })
 );
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // products
 app.get('/products', (req, res) => {
@@ -48,14 +48,6 @@ app.get('/product/:productId', (req, res) => {
         });
 });
 
-app.use(express.static('public'));
-
-if (require.main == module) {
-    app.listen(process.env.PORT || 8080, () => {
-        console.log('Aloha-Shop up and running');
-    });
-}
-
 // search
 app.get('/search', (req, res) => {
     console.log('GET request to /search');
@@ -91,3 +83,11 @@ app.get('/price', (req, res) => {
             console.log('error in db.getProductsByBrand: ', err);
         });
 });
+
+app.use(express.static('public'));
+
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () => {
+        console.log('Aloha-Shop up and running');
+    });
+}

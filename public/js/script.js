@@ -131,6 +131,7 @@
                     image: [],
                 },
                 empty: false,
+                mounted: false,
             };
         },
         watch: {
@@ -150,6 +151,7 @@
                     .then(function (res) {
                         if (res.data.length > 0) {
                             self.product = res.data;
+                            mounted = true;
                             console.log('self.product: ', self.product);
                         } else {
                             self.empty = true;
@@ -224,6 +226,9 @@
             addEventListener('hashchange', function () {
                 self.clickId = location.hash.slice(1); // for openProduct
             });
+            let storageItem = JSON.parse(localStorage.getItem('cart'));
+            this.cart = storageItem;
+            this.cartValue();
         },
         methods: {
             toggleNav: function () {
@@ -257,6 +262,10 @@
                             if (res.data.length > 0) {
                                 let product = { ...res.data[0], amount: 1 };
                                 self.cart.push(product);
+                                localStorage.setItem(
+                                    'cart',
+                                    JSON.stringify(self.cart)
+                                );
                                 console.log('cart: ', self.cart);
                                 self.cartValue();
                                 self.toggleCart();
@@ -279,6 +288,7 @@
                     console.log('index: ', index);
                     self.cart[index].amount += 1;
                     console.log('item: ', item);
+                    localStorage.setItem('cart', JSON.stringify(self.cart));
                     self.cartValue();
                     self.toggleCart();
                 }
@@ -286,6 +296,7 @@
             removeItem: function (id, index) {
                 console.log('clicked removeItem for id and index: ', id, index);
                 this.cart.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(this.cart));
             },
             cartValue: function () {
                 this.total = 0;
@@ -302,14 +313,17 @@
             increaseAmount: function (index, id) {
                 this.cart[index].amount += 1;
                 this.cartValue();
+                localStorage.setItem('cart', JSON.stringify(this.cart));
             },
             decreaseAmount: function (index, id) {
                 if (this.cart[index].amount > 1) {
                     this.cart[index].amount -= 1;
                     this.cartValue();
+                    localStorage.setItem('cart', JSON.stringify(this.cart));
                 } else {
                     this.removeItem(id, index);
                     this.cartValue();
+                    localStorage.setItem('cart', JSON.stringify(this.cart));
                 }
             },
             navHome: function () {

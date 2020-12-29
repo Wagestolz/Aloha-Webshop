@@ -35,6 +35,7 @@ Variables
     --babyDark: #457bcc;
     --lila: #5b2fb2;
     --pink: #e541a5;
+    --pinkLight: #f349b2;
     --sun: #ecc03a;
     --bright: #f0e047;
     /*  HAWAIIAN FONT PAIRING */
@@ -108,6 +109,11 @@ body {
         url('/javascript-comfy-store-course-project-starter/images/hawaii.jpg');
     background-size: cover; */
     background: var(--clr-white);
+    background: linear-gradient(
+        0deg,
+        rgba(69, 123, 204, 0.9),
+        rgba(69, 166, 204, 1)
+    );
     /* color: var(--clr-grey-1); */
     color: var(--bright); /* added*/
     line-height: 1.5;
@@ -531,11 +537,13 @@ Cart
 }
 .cart header h3 {
     font-weight: 500;
+    color: var(--bright);
 }
 .cart-total {
     text-align: center;
     margin-bottom: 2rem;
     font-weight: 500;
+    color: var(--bright);
 }
 .cart-checkout {
     display: block;
@@ -564,22 +572,22 @@ Cart
 .cart-item-price {
     margin-bottom: 0;
     font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--lila);
+    font-weight: 500;
+    color: var(--clr-grey-10);
 }
 .cart-item-remove-btn {
     background: transparent;
     border-color: transparent;
-    color: var(--babyDark);
+    color: var(--clr-grey-8);
     letter-spacing: var(--spacing);
     cursor: pointer;
 }
 .cart-item-amount {
     margin-bottom: 0;
     text-align: center;
-    color: var(--clr-grey-3);
+    color: var(--clr-grey-10);
     line-height: 1;
-    font-weight: 600;
+    font-weight: 500;
 }
 .cart-item-increase-btn,
 .cart-item-decrease-btn {
@@ -657,13 +665,21 @@ product
     margin-bottom: 0.25rem;
     text-transform: capitalize;
     letter-spacing: var(--spacing);
+    color: var(--sun);
 }
 .product-price {
     margin-bottom: 0;
-    color: var(--clr-grey-3);
-    font-weight: 700;
+    color: var(--clr-grey-10);
+    font-weight: 500;
 }
 
+.featured {
+    background: linear-gradient(
+        0deg,
+        rgba(69, 123, 204, 0.9),
+        rgba(69, 166, 204, 1)
+    );
+}
 .featured-center {
     margin: 3rem auto 2rem auto;
     display: grid;
@@ -702,6 +718,10 @@ About Page
     max-width: 45em;
     margin: 0 auto;
     margin-top: 2rem;
+    color: var(--clr-grey-10);
+}
+.about-page {
+    min-height: calc(100vh - (20vh + 6rem));
 }
 
 /*
@@ -711,6 +731,7 @@ Products Page
 */
 .products {
     width: 90vw;
+    min-height: calc(100vh - (20vh + 6rem));
     display: grid;
     grid-gap: 1rem;
     margin: 4rem auto;
@@ -744,7 +765,7 @@ Products Page
     background: transparent;
     border-color: transparent;
     letter-spacing: var(--spacing);
-    color: var(--clr-grey-5);
+    color: var(--clr-grey-10);
     cursor: pointer;
     transition: var(--transition);
 }
@@ -754,6 +775,9 @@ Products Page
 .price-filter {
     background: var(--clr-grey-5) !important;
     color: var(--clr-grey-5);
+}
+.price-value {
+    color: var(--clr-grey-10);
 }
 @media screen and (min-width: 768px) {
     .products {
@@ -809,7 +833,7 @@ Single Product Page
     background: linear-gradient(
         0deg,
         rgba(229, 65, 165, 0.95),
-        rgb(229, 65, 165, 0.9)
+        rgb(229, 65, 165, 0.95)
     );
     z-index: 10;
     /* display: grid;
@@ -847,12 +871,25 @@ Single Product Page
     place-items: center;
     background: var(--clr-grey-10);
     color: var(--clr-grey-5);
+    background: linear-gradient(
+            0deg,
+            rgba(69, 123, 204, 0.6),
+            rgba(69, 166, 204, 0.8)
+        ),
+        url(/img/hawaii.jpg) center/cover;
+}
+.modal-header {
+    min-height: 20vh;
+    background: var(--pinkLight);
 }
 .page-hero-title {
     font-weight: 500;
 }
 .single-product {
     padding: 2rem 0;
+}
+.single-product-title {
+    font-size: 3.25rem;
 }
 .single-product-center {
     margin: 2rem auto;
@@ -865,16 +902,25 @@ Single Product Page
     object-fit: contain;
 }
 .single-product-company {
-    font-size: 1.2rem;
-    color: var(--clr-grey-8);
+    font-size: 1.4rem;
+    color: var(--lila);
     text-transform: uppercase;
     letter-spacing: var(--spacing);
     margin-bottom: 1.25rem;
 }
 .single-product-price {
-    color: var(--clr-grey-3);
-    font-size: 1.25rem;
+    color: var(--bright);
+    font-size: 1.5rem;
     font-weight: 500;
+}
+.single-product-colors {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: inline-block;
+    grid-template-rows: 1fr;
+    /* margin: auto 0; */
+    padding: 0 0.5rem;
+    height: 2rem;
+    border-radius: var(--radius);
 }
 
 .product-color {
@@ -883,12 +929,20 @@ Single Product Page
     height: 1rem;
     border-radius: 50%;
     background: #222;
-    margin: 0.5rem 0.5rem 1.5rem 0;
+    margin: 0.5rem 0rem 0.75rem 0.25rem;
 }
 
 .single-product-desc {
     max-width: 25em;
     line-height: 1.8;
+    color: var(--clr-grey-3);
+}
+
+.addToCartBtn {
+    background-color: var(--lila);
+}
+.addToCartBtn:hover {
+    color: var(--lila);
 }
 @media screen and (min-width: 992px) {
     .single-product-center {

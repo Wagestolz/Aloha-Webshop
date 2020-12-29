@@ -248,36 +248,30 @@
         <script id="product-template" type="text/x-template">
             <div class="product-modal">
                 <!-- heading -->
-                    <!-- <section class="page-hero">
+                    <section class="page-hero modal-header">
                     <div class="section-center">
-                        <h3 class="page-hero-title">Home / Aloha Basic Shirt</h3>
+                        <h3 class="page-hero-title">Home / {{product[0].fields.name}}</h3>
                     </div>
-                    </section> -->
+                    </section>
                 <!-- End of heading -->
                 <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
-                    <section class="single-product">
-                        <div class="section-center single-product-center">
-                            <img :src="product[0].fields.image[0].url" class="single-product-img img" alt="product[0].fields.name">
-                            <article class="single-product-info">
-                                <h2 class="single-product-title">{{product[0].fields.name}}</h2>
-                                <p class="single-product-company text-slanted">
-                                    by {{product[0].fields.brand}}
-                                </p>
-                                <p class="sinlge-product-price">€{{product[0].fields.price}}</p>
-                                <div class="single-product-colors"></div>
-                                <p class="single-product-desc">{{product[0].fields.description}}</p>
-                                <button @click="addProductToCart(product[0].id)" class="addToCartBtn btn">add to cart</button>
-                            </article>
-                        </div>
-                    </section>
-
-
-
-                <!-- <div class="product-modal-container">
-                    <h2 @click="closeProduct" class="close-btn"><i class="fas fa-times"></i></h2>
-                    <h1>Random Heading</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis consequatur delectus, sint nihil dolore, iste aliquam impedit explicabo necessitatibus eos, unde pariatur. Illum neque asperiores veniam, quasi modi omnis quaerat ducimus incidunt natus qui? Delectus at saepe consectetur dolor maiores voluptate adipisci, nobis iusto quo nostrum quibusdam modi harum corporis!</p>
-                </div> -->
+                <section class="single-product">
+                    <div class="section-center single-product-center">
+                        <img :src="product[0].fields.image[0].url" class="single-product-img img" alt="product[0].fields.name">
+                        <article class="single-product-info">
+                            <h2 class="single-product-title">{{product[0].fields.name}}</h2>
+                            <p class="single-product-company text-slanted">
+                                by {{product[0].fields.brand}}
+                            </p>
+                            <p class="single-product-price">€{{product[0].fields.price}}</p>
+                            <div class="single-product-colors">
+                                <span v-for="each in product[0].fields.colors" class="product-color" v-bind:style="{ backgroundColor: each }"></span>
+                            </div>
+                            <p class="single-product-desc">{{product[0].fields.description}}</p>
+                            <button @click="addProductToCart(product[0].id)" class="addToCartBtn btn">add to cart</button>
+                        </article>
+                    </div>
+                </section>
             </div>
         </script>
         <!-- End of PRODUCT-Component Script Tag -->
