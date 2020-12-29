@@ -299,15 +299,16 @@
                 localStorage.setItem('cart', JSON.stringify(this.cart));
             },
             cartValue: function () {
-                this.total = 0;
-                this.cartCount = 0;
-                for (let i = 0; i < this.cart.length; i++) {
+                var self = this;
+                self.total = 0;
+                self.cartCount = 0;
+                for (let i = 0; i < self.cart.length; i++) {
                     let itemTotal =
-                        this.cart[i].fields.price * this.cart[i].amount;
-                    this.total += itemTotal;
-                    this.total =
-                        Math.round((this.total + Number.EPSILON) * 100) / 100;
-                    this.cartCount += this.cart[i].amount;
+                        self.cart[i].fields.price * self.cart[i].amount;
+                    self.total += itemTotal;
+                    self.total =
+                        Math.round((self.total + Number.EPSILON) * 100) / 100;
+                    self.cartCount += self.cart[i].amount;
                 }
             },
             increaseAmount: function (index, id) {
