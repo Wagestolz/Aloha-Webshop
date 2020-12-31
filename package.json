@@ -19,7 +19,6 @@
     "homepage": "https://github.com/Wagestolz/Aloha-Webshop#readme",
     "dependencies": {
         "aws-sdk": "^2.817.0",
-        "cookie-parser": "^1.4.5",
         "express": "^4.17.1",
         "spiced-pg": "^1.0.4"
     }

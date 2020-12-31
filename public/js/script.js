@@ -62,7 +62,6 @@
                 this.$emit('cart-addition', id);
             },
             searchFilter: function () {
-                console.log('searchFilter firing: ', this.searchInput);
                 var self = this;
                 if (this.searchInput.length == 0) {
                     this.getProducts();
@@ -260,7 +259,6 @@
                 history.pushState({}, '', '/'); // reset link
             },
             addItemToCart: function (id) {
-                console.log('addItemToCart fired with id: ', id);
                 var self = this;
                 let item = self.cart.find((cartItem) => cartItem.id === id);
                 if (!item) {
@@ -276,7 +274,6 @@
                                     'cart',
                                     JSON.stringify(self.cart)
                                 );
-                                console.log('cart: ', self.cart);
                                 self.cartValue();
                                 self.toggleCart();
                             } else {
@@ -291,13 +288,11 @@
                             );
                         });
                 } else {
-                    console.log('item already in card: ', item);
+                    // console.log('item already in card: ', item);
                     let index = self.cart.findIndex(
                         (cartItem) => cartItem.id === id
                     );
-                    console.log('index: ', index);
                     self.cart[index].amount += 1;
-                    console.log('item: ', item);
                     localStorage.setItem('cart', JSON.stringify(self.cart));
                     self.cartValue();
                     self.toggleCart();

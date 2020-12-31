@@ -1,16 +1,14 @@
 const express = require('express');
 const app = express();
-// const cookieParser = require('cookie-parser');
 const db = require('./db');
-const s3 = require('./s3');
-const { s3Url } = require('./config.json');
+// const s3 = require('./s3');
+// const { s3Url } = require('./config.json');
 
 app.use(
     express.urlencoded({
         extended: false,
     })
 );
-// app.use(cookieParser());
 
 // products
 app.get('/products', (req, res) => {
