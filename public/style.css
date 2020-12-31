@@ -389,6 +389,7 @@ Hero
     border-radius: var(--radius);
     transition: var(--transition);
     font-weight: 600;
+    cursor: pointer;
 }
 .hero-btn:hover {
     background: var(--pink);
