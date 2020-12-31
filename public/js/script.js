@@ -118,18 +118,27 @@
         props: ['clickId'],
         data: function () {
             return {
-                product: {
-                    id: '',
-                    name: '',
-                    price: '',
-                    brand: '',
-                    fabric: '',
-                    colors: [],
-                    tags: [],
-                    featured: '',
-                    description: '',
-                    image: [],
-                },
+                product: [
+                    {
+                        id: '',
+                        fields: {
+                            name: '',
+                            price: '',
+                            brand: '',
+                            fabric: '',
+                            url: '',
+                            colors: [],
+                            tags: [],
+                            featured: '',
+                            description: '',
+                            image: [
+                                {
+                                    url: '',
+                                },
+                            ],
+                        },
+                    },
+                ],
                 empty: false,
                 mounted: false,
             };
@@ -152,7 +161,6 @@
                         if (res.data.length > 0) {
                             self.product = res.data;
                             mounted = true;
-                            console.log('self.product: ', self.product);
                         } else {
                             self.empty = true;
                             console.log('empty selection');
@@ -227,7 +235,9 @@
                 self.clickId = location.hash.slice(1); // for openProduct
             });
             let storageItem = JSON.parse(localStorage.getItem('cart'));
-            this.cart = storageItem;
+            if (storageItem) {
+                this.cart = storageItem;
+            }
             this.cartValue();
         },
         methods: {
@@ -294,21 +304,20 @@
                 }
             },
             removeItem: function (id, index) {
-                console.log('clicked removeItem for id and index: ', id, index);
                 this.cart.splice(index, 1);
                 localStorage.setItem('cart', JSON.stringify(this.cart));
             },
             cartValue: function () {
                 var self = this;
-                self.total = 0;
-                self.cartCount = 0;
-                for (let i = 0; i < self.cart.length; i++) {
+                this.total = 0;
+                this.cartCount = 0;
+                for (let i = 0; i < this.cart.length; i++) {
                     let itemTotal =
-                        self.cart[i].fields.price * self.cart[i].amount;
-                    self.total += itemTotal;
-                    self.total =
-                        Math.round((self.total + Number.EPSILON) * 100) / 100;
-                    self.cartCount += self.cart[i].amount;
+                        this.cart[i].fields.price * this.cart[i].amount;
+                    this.total += itemTotal;
+                    this.total =
+                        Math.round((this.total + Number.EPSILON) * 100) / 100;
+                    this.cartCount += this.cart[i].amount;
                 }
             },
             increaseAmount: function (index, id) {

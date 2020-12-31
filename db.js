@@ -41,7 +41,7 @@ module.exports.searchProducts = (searchInput) => {
         `SELECT * 
         FROM products
         WHERE fields ->> 'name' ILIKE $1`,
-        [searchInput]
+        ['%' + searchInput + '%']
     );
 };
 
